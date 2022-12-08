@@ -53,7 +53,9 @@ type collectionTimeStruct struct {
 }
 
 type pointsStruct struct {
-	ObjectType string             `json:"objectType"`
+	ObjectType string `json:"objectType"`
+	TimeStamp  string `json:"timeStamp"`
+	BatchID      int64  `json:"batchId"`
 	Tags       map[string]string  `json:"tags"`
 	Metric     map[string]float64 `json:"metrics"`
 }
@@ -256,6 +258,10 @@ func Collect() error {
 		// for printing out
 		for _, pt := range ptMap {
 			j.Points = append(j.Points, pt)
+			pt.TimeStamp = t.Format(time.RFC3339)
+			pt.BatchID = time.Now().UnixMilli()
+			b, _ := json.Marshal(pt)
+			fmt.Printf("1st %s\n", b)
 		}
 
 		// Next we extract the info for channel status. Several of the attributes
@@ -513,17 +519,21 @@ func Collect() error {
 
 			for _, pt := range ptMap {
 				j.Points = append(j.Points, pt)
+				pt.TimeStamp = t.Format(time.RFC3339)
+				pt.BatchID = time.Now().UnixMilli()
+				b, _ := json.Marshal(pt)
+			    fmt.Printf("%s\n", b)
 			}
 		}
 
-		if config.oneline {
+		/*if config.oneline {
 			b, _ := json.Marshal(j)
 			fmt.Printf("%s\n", b)
 		} else {
 			b, _ := json.MarshalIndent(j, "", "  ")
 			fmt.Printf("%s\n", b)
-		}
-
+		}*/
+		
 	}
 
 	collectStopTime := time.Now()
