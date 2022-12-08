@@ -257,7 +257,7 @@ func Collect() error {
 		// After all the points have been created, add them to the JSON structure
 		// for printing out
 		for _, pt := range ptMap {
-			j.Points = append(j.Points, pt)
+			//j.Points = append(j.Points, pt)
 			pt.TimeStamp = t.Format(time.RFC3339)
 			pt.BatchID = time.Now().UnixMilli()
 			b, _ := json.Marshal(pt)
@@ -518,7 +518,7 @@ func Collect() error {
 			}
 
 			for _, pt := range ptMap {
-				j.Points = append(j.Points, pt)
+				//j.Points = append(j.Points, pt)
 				pt.TimeStamp = t.Format(time.RFC3339)
 				pt.BatchID = time.Now().UnixMilli()
 				b, _ := json.Marshal(pt)
